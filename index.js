@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -16,7 +17,11 @@ app.post("/chat", async (req, res) => {
     let message = {
       role: "user",
     };
+    const selam = ["selamunaleykum", "selamunaleyküm", "selamaleykum", "selamaleyküm"];
     message.content = req.body.message;
+    if(selam.includes(message.content.toLowerCase().trim())){
+      res.status(200).json({ error: "Internal server error" });
+    }
     // const { messages } = req.body;
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
