@@ -16,11 +16,11 @@ app.post("/chat", async (req, res) => {
     let message = {
       role: "user",
     };
-    message.content = req.body;
+    message.content = req.body.message;
     // const { messages } = req.body;
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: Array(message),
+      messages: [message],
     });
     const response = completion.data.choices[0].message;
     // console.log(response.content)
